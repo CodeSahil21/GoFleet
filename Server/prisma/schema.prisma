@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+//creating User model
+model User{
+  id Int  @id @default(autoincrement())
+  firstname String   @db.VarChar(255) @default("")
+  lastname String?    @db.VarChar(255) @default("")
+  email    String     @unique
+  password  String    
+  socketId  String?  @db.VarChar(255)
+}
+// @db.VarChar(255) @default(""): it map String into VarChar(25) initially setting it  as default empty string
+//@id marks it as primary key of user model
+//@unique : no two records can exist with same email
+//? : makes it optional
