@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Captain" ALTER COLUMN "status" SET DEFAULT 'INACTIVE';

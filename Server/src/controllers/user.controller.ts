@@ -93,3 +93,4 @@ export const logoutUser = async (req: AuthenticatedRequest, res: Response, next:
         return res.status(500).json({ msg: "Error during logout" });
     }
 }
+

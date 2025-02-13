@@ -33,3 +33,49 @@ model BlacklistToken {
   token     String   @unique
   createdAt DateTime @default(now())
 }
+
+// Creating Captain model
+model Captain {
+  id        Int      @id @default(autoincrement())
+  firstname String   @db.VarChar(255)
+  lastname  String?  @db.VarChar(255)
+  email     String   @unique
+  password  String
+  socketId  String?  @db.VarChar(255)
+  status    Status   @default(INACTIVE)
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  vehicleId Int      @unique
+  location  Location? @relation(fields: [locationId], references: [id])
+  locationId Int?     @unique
+}
+
+// Creating Vehicle model
+model Vehicle {
+  id          Int      @id @default(autoincrement())
+  color       String   @db.VarChar(255)
+  plate       String   @db.VarChar(255)
+  capacity    Int
+  vehicleType VehicleType
+  captain     Captain?
+}
+
+// Creating Location model
+model Location {
+  id  Int     @id @default(autoincrement())
+  ltd Float?
+  lng Float?
+  captain Captain?
+}
+
+// Enum for VehicleType
+enum VehicleType {
+  CAR
+  MOTORCYCLE
+  AUTO
+}
+
+// Enum for Status
+enum Status {
+  ACTIVE
+  INACTIVE
+}
