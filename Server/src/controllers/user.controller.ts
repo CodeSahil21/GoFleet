@@ -3,7 +3,7 @@ import { createUser as createUserService } from '../services/user.service';
 import { generateToken, comparePassword } from '../utils/auth';
 import { userSigninSchema, userSignupSchema } from '../utils/schema';
 import prisma from '../db'
-
+import { AuthenticatedRequest } from '../types/types';
 export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
         // Validate request data using Zod schema
@@ -61,5 +61,20 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         // Log the error for debugging
         console.error('Error during signup:', error);
         return res.status(500).json({ msg: "Error during login" });
+    }
+};
+
+export const getUserProfile = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<any> => {
+    try {
+        const user = req.user;
+
+        if (!user) {
+            return res.status(401).json({ msg: "Unauthorized" });
+        }
+
+        return res.status(200).json({ user });
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return res.status(500).json({ msg: "Error fetching user profile" });
     }
 };
