@@ -4,6 +4,7 @@ import prisma from '../db';
 import dotenv from 'dotenv';
 import { AuthenticatedRequest, AuthenticatedUser } from '../types/types';
 
+
 dotenv.config();
 
 export const userMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<any> => {
@@ -13,6 +14,14 @@ export const userMiddleware = async (req: AuthenticatedRequest, res: Response, n
     }
 
     try {
+        // Check if the token is blacklisted
+        const isBlacklisted = await prisma.blacklistToken.findUnique({
+            where: { token }
+        })
+        if (isBlacklisted) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+   
         // Verify the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: number };
 

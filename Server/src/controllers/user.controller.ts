@@ -55,6 +55,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         }
 
         const token = generateToken(user.id);
+        res.cookie('token', token);
         return res.status(200).json({ token, user });
     } catch (error) {
         
@@ -78,3 +79,17 @@ export const getUserProfile = async (req: AuthenticatedRequest, res: Response, n
         return res.status(500).json({ msg: "Error fetching user profile" });
     }
 };
+
+
+export const logoutUser = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<any> => {
+    try {
+        res.clearCookie('token');
+        const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+        await prisma.blacklistToken.create({ data: { token } });
+        return res.status(200).json({ msg: "Logged out successfully" });
+    } catch (error) {
+        //only for debugging
+        console.error('Error during logout:', error);
+        return res.status(500).json({ msg: "Error during logout" });
+    }
+}

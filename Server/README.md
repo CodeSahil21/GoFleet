@@ -139,3 +139,82 @@ curl -X POST http://localhost:4000/api/users/signin \
 - The password is compared with the hashed password stored in the database.
 - A JWT token is generated and returned upon successful signin.
 - Input data is validated using Zod schema.
+
+### User Profile
+
+**Endpoint:** `GET /api/user/profile`
+
+**Description:** Fetch the profile of the authenticated user.
+
+**Request:**
+
+- **URL:** `http://localhost:4000/api/user/profile`
+- **Method:** `GET`
+- **Headers:**
+  - `Authorization: Bearer <token>` (required)
+
+**Response:**
+
+- **Success (200 OK):**
+  ```json
+  {
+    "user": {
+      "id": 1,
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john.doe@example.com",
+      "socketId": "someSocketId"
+    }
+  }
+  ```
+- **Error (401 Unauthorized):**
+  ```json
+  {
+    "msg": "Unauthorized"
+  }
+  ```
+- **Error (500 Internal Server Error):**
+  ```json
+  {
+    "msg": "Error fetching user profile"
+  }
+  ```
+
+### User Logout
+
+**Endpoint:** `GET /api/user/logout`
+
+**Description:** Logout the authenticated user by clearing the token and blacklisting it.
+
+**Request:**
+
+- **URL:** `http://localhost:4000/api/user/logout`
+- **Method:** `GET`
+- **Headers:**
+  - `Authorization: Bearer <token>` (required)
+
+**Response:**
+
+- **Success (200 OK):**
+  ```json
+  {
+    "msg": "Logged out successfully"
+  }
+  ```
+- **Error (500 Internal Server Error):**
+  ```json
+  {
+    "msg": "Error during logout"
+  }
+  ```
+
+**Example:**
+
+```bash
+curl -X GET http://localhost:4000/api/user/logout \
+-H "Authorization: Bearer <token>"
+```
+
+**Notes:**
+
+- The token is cleared from cookies and blacklisted to prevent reuse.
