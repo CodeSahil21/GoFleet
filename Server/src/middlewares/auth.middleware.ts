@@ -2,12 +2,12 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../db';
 import dotenv from 'dotenv';
-import { AuthenticatedRequest,AuthenticatedCaptainRequest } from '../types/types';
+import { AuthenticatedRequest as AuthenticatedUserRequest,AuthenticatedCaptainRequest } from '../types/types';
 
 
 dotenv.config();
 
-export const userMiddleware = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<any> => {
+export const userMiddleware = async (req: AuthenticatedUserRequest, res: Response, next: NextFunction): Promise<any> => {
     const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
     if (!token) {
         return res.status(401).json({ msg: "Unauthorized1" });
@@ -81,6 +81,15 @@ export const captainMiddleware = async (req: AuthenticatedCaptainRequest, res: R
                 socketId: true,
                 status: true,
                 vehicleId: true,
+                vehicle: {
+                    select: {
+                        id: true,
+                        color: true,
+                        plate: true,
+                        capacity: true,
+                        vehicleType: true,
+                    }
+                }
             },
         });
 
