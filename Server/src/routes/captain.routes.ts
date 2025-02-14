@@ -6,7 +6,7 @@ const captainRouter = express.Router();
 //endpoint to signup:creating captain
 captainRouter.post('/signup', createCaptain);
 //endpoint to signin:login captain
-captainRouter.post('/login', loginCaptain);
+captainRouter.post('/signin', loginCaptain);
 //endpoint to get captain profile
 captainRouter.get('/profile', captainMiddleware, getCaptainProfile);
 //endpoint to logout captain

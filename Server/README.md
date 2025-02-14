@@ -218,3 +218,126 @@ curl -X GET http://localhost:4000/api/user/logout \
 **Notes:**
 
 - The token is cleared from cookies and blacklisted to prevent reuse.
+
+## Captain Routes
+
+### Create Captain
+
+#### Endpoint
+`POST /api/captains`
+
+#### Description
+Creates a new captain with the provided details.
+
+#### Request Body
+```json
+{
+    "firstname": "string",
+    "lastname": "string (optional)",
+    "email": "string",
+    "password": "string",
+    "color": "string",
+    "plate": "string",
+    "capacity": "number",
+    "vehicleType": "CAR" | "MOTORCYCLE" | "AUTO"
+}
+```
+
+#### Response
+```json
+{
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string",
+    "vehicleId": "string"
+}
+```
+
+#### Errors
+- `400 Bad Request`: All fields are required.
+- `409 Conflict`: Captain already exists.
+
+### Get Captain
+
+#### Endpoint
+`GET /api/captains/:id`
+
+#### Description
+Fetches the details of a captain by ID.
+
+#### Response
+```json
+{
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string",
+    "vehicle": {
+        "id": "string",
+        "color": "string",
+        "plate": "string",
+        "capacity": "number",
+        "vehicleType": "CAR" | "MOTORCYCLE" | "AUTO"
+    }
+}
+```
+
+#### Errors
+- `404 Not Found`: Captain not found.
+
+### Update Captain
+
+#### Endpoint
+`PUT /api/captains/:id`
+
+#### Description
+Updates the details of a captain by ID.
+
+#### Request Body
+```json
+{
+    "firstname": "string (optional)",
+    "lastname": "string (optional)",
+    "email": "string (optional)",
+    "password": "string (optional)",
+    "color": "string (optional)",
+    "plate": "string (optional)",
+    "capacity": "number (optional)",
+    "vehicleType": "CAR" | "MOTORCYCLE" | "AUTO" (optional)
+}
+```
+
+#### Response
+```json
+{
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string",
+    "vehicleId": "string"
+}
+```
+
+#### Errors
+- `400 Bad Request`: Invalid input.
+- `404 Not Found`: Captain not found.
+
+### Delete Captain
+
+#### Endpoint
+`DELETE /api/captains/:id`
+
+#### Description
+Deletes a captain by ID.
+
+#### Response
+```json
+{
+    "message": "Captain deleted successfully"
+}
+```
+
+#### Errors
+- `404 Not Found`: Captain not found.
+
