@@ -8,11 +8,13 @@ const UserSignupPage = () => {
     const [password, setPassword] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
-    const [userDatas, setUserDatas] = useState<{ email: string; password: string; firstname: string; lastname?: string }>({
+    const [userDatas, setUserDatas] = useState<{ email: string; password: string; fullname:{firstname: string; lastname?: string}}>({
         email: '',
         password: '',
-        firstname: '',
-        lastname: ''
+		fullname:{
+				firstname: '',
+				lastname: ''
+			}
     });
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -20,8 +22,10 @@ const UserSignupPage = () => {
         setUserDatas({
             email: email,
             password: password,
-            firstname: firstname,
-            lastname: lastname || undefined
+			fullname:{
+				firstname: firstname,
+				lastname: lastname || undefined
+			}
         });
         setEmail('');
         setPassword('');
@@ -29,9 +33,7 @@ const UserSignupPage = () => {
         setLastname('');
     };
 
-    useEffect(() => {
-        console.log(userDatas);
-    }, [userDatas]);
+    
 
     return (
         <div>

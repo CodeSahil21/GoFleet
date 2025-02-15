@@ -5,33 +5,33 @@ import Link from 'next/link';
 
 const CaptainSignup: React.FC = () => {
      const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-        const [firstname, setFirstname] = useState('');
-        const [lastname, setLastname] = useState('');
-        const [userDatas, setUserDatas] = useState<{ email: string; password: string; firstname: string; lastname?: string }>({
-            email: '',
-            password: '',
-            firstname: '',
-            lastname: ''
-        });
-    
-        const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
-            e.preventDefault();
-            setUserDatas({
-                email: email,
-                password: password,
-                firstname: firstname,
-                lastname: lastname || undefined
-            });
-            setEmail('');
-            setPassword('');
-            setFirstname('');
-            setLastname('');
-        };
-    
-        useEffect(() => {
-            console.log(userDatas);
-        }, [userDatas]);
+         const [password, setPassword] = useState('');
+         const [firstname, setFirstname] = useState('');
+         const [lastname, setLastname] = useState('');
+         const [captainDatas, setCaptainDatas] = useState<{ email: string; password: string; fullname:{firstname: string; lastname?: string}}>({
+             email: '',
+             password: '',
+            fullname:{
+                    firstname: '',
+                    lastname: ''
+                }
+         });
+     
+         const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+             e.preventDefault();
+             setCaptainDatas({
+                 email: email,
+                 password: password,
+                fullname:{
+                    firstname: firstname,
+                    lastname: lastname || undefined
+                }
+             });
+             setEmail('');
+             setPassword('');
+             setFirstname('');
+             setLastname('');
+         };
     
     return (
         <div>
