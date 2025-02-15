@@ -15,10 +15,12 @@ const UserLoginPage:React.FC = () => {
             email:email,
             password:password
         })
-        console.log(userDatas);
         setEmail('');
         setPassword('');
     }
+    useEffect(() => {
+            console.log(userDatas);
+        }, [userDatas]);
     return (
         <div>
             <div className='p-7 h-screen flex flex-col justify-between'>

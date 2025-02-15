@@ -10,14 +10,17 @@ const CaptainLoginPage :React.FC = () => {
 
 
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
-        e.preventDefault();
-        setCaptainDatas({
-            email:email,
-            password:password
-        })
-        setEmail('');
-        setPassword('');
-    }
+            e.preventDefault();
+            setCaptainDatas({
+                email: email,
+                password: password
+            });
+            setEmail('');
+            setPassword('');
+        };
+        useEffect(() => {
+                console.log(captainDatas);
+            }, [captainDatas]);
     return (
         <div>
             <div className='p-7 h-screen flex flex-col justify-between'>
