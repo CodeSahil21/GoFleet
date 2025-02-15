@@ -23,7 +23,7 @@ const CaptainLoginPage :React.FC = () => {
             }, [captainDatas]);
     return (
         <div>
-            <div className='p-7 h-screen flex flex-col justify-between'>
+            <div className='py-5 px-5  h-screen flex flex-col justify-between'>
                 <div>
                 <Image
                         className="w-20 mb-2 "
