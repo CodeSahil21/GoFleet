@@ -35,7 +35,7 @@ const CaptainLoginPage :React.FC = () => {
                 <form onSubmit={(e)=>{
                     submitHandler(e);
                 }}>
-                <h3 className='text-lg font-medium mb-2'>What's your email</h3>
+                <h3 className=' w-full text-lg font-medium mb-2'>What's our Captain email</h3>
                 <input 
                 className='bg-[#eeeeee] mb-7 px-4 py-2 rounded border w-full text-lg placeholder:base'
                 required
@@ -46,7 +46,7 @@ const CaptainLoginPage :React.FC = () => {
                 type="email" 
                 placeholder="youremail@example.com"
                  />
-                <h3 className='text-lg font-medium mb-2'>Enter your Password </h3>
+                <h3 className='text-lg font-medium mb-2'>Enter your Password Captain</h3>
                 <input 
                 className='bg-[#eeeeee]  mb-7 px-4 py-2 rounded border w-full text-lg placeholder:base'
                 required 
