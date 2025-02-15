@@ -61,8 +61,8 @@ const UserLoginPage:React.FC = () => {
                 </form>
                 </div>
                 <div>
-                <button className='bg-[#10b461] text-white font-semibold mb-7 px-4 py-2 rounded  w-full text-lg placeholder:base'>
-                    Sign in as Captain</button>
+                <Link href='/captain-Login' className='flex items-center justify-center bg-[#10b461] text-white font-semibold mb-5 px-4 py-2 rounded  w-full text-lg placeholder:base'>
+                    Sign in as Captain</Link>
                 </div>
             </div>
         </div>
