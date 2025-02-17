@@ -2,35 +2,28 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import { useRecoilState } from 'recoil';
+import { userAtom } from '../../Recoil/userAtom';
 const UserSignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
-    const [userDatas, setUserDatas] = useState<{ email: string; password: string; fullname:{firstname: string; lastname?: string}}>({
-        email: '',
-        password: '',
-		fullname:{
-				firstname: '',
-				lastname: ''
-			}
-    });
-
+    const [userDatas, setUserDatas] = useRecoilState(userAtom);
+  
     const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
-        e.preventDefault();
-        setUserDatas({
-            email: email,
-            password: password,
-			fullname:{
-				firstname: firstname,
-				lastname: lastname || undefined
-			}
-        });
-        setEmail('');
-        setPassword('');
-        setFirstname('');
-        setLastname('');
+      e.preventDefault();
+      setUserDatas({
+        email: email,
+        fullname: {
+          firstname: firstname,
+          lastname: lastname || undefined
+        }
+      });
+      setEmail('');
+      setPassword('');
+      setFirstname('');
+      setLastname('');
     };
 
     
