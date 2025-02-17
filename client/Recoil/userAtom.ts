@@ -1,20 +1,22 @@
-import {atom} from 'recoil';
+import { atom } from 'recoil';
 
-interface User{
-    email: string;
-    fullname:{
-        firstname: string;
-        lastname?: string;
-    };
+interface User {
+  email: string;
+  password: string;
+  fullname: {
+    firstname: string;
+    lastname?: string;
+  };
 }
 
 export const userAtom = atom<User>({
-    key: 'userAtom',
-    default:{
-        email: '',
-        fullname:{
-            firstname: '',
-            lastname: ''
-        }
-    },
+  key: 'userState',
+  default: {
+    email: '',
+    password: '',
+    fullname: {
+      firstname: '',
+      lastname: ''
+    }
+  },
 });
