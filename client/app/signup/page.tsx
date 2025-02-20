@@ -1,32 +1,46 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRecoilState } from 'recoil';
-import { userAtom } from '../../Recoil/userAtom';
+import {  useUser } from '@/context/UserContext';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+interface NewUser {
+    email: string;
+    fullname: {
+        firstname: string;
+        lastname?: string;  
+    }
+}
 const UserSignupPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
-    const [userDatas, setUserDatas] = useRecoilState(userAtom);
-  
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+    const { user, setUser } = useUser();
+    const router = useRouter();
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
       e.preventDefault();
-      setUserDatas({
+    const newUser: NewUser = {
         email: email,
         fullname: {
-          firstname: firstname,
-          lastname: lastname || undefined
+            firstname: firstname,
+            lastname: lastname || undefined
         }
-      });
-      setEmail('');
-      setPassword('');
-      setFirstname('');
-      setLastname('');
     };
-
     
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/signup`, newUser);
+        setUser(response.data);
+        setEmail('');
+        setPassword('');
+        setFirstname('');
+        setLastname('');
+        router.push('/home'); 
+      } catch (error) {
+        console.error('Error signing up:', error);
+      }
+    };
 
     return (
         <div>
