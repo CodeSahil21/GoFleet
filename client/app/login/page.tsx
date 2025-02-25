@@ -3,24 +3,46 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/UserContext';
+import axios from 'axios';
+interface User {
+    email: string;
+    password: string;
+}
 const UserLoginPage:React.FC = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [userDatas,setUserDatas] = useState<{ email: string; password: string }>({ email: '', password: '' });  
+    const {user,setUser} = useUser();
+    const router = useRouter();
+   
 
-
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        setUserDatas({
+        const signinuser: User = {
             email:email,
             password:password
-        })
+        };
+        try{
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/signin`,signinuser);
+              if(response.status == 200){
+                const data = response.data;
+                setUser(data.user);
+                localStorage.setItem('user', data.token);
+                alert('User logged in successfully');
+                router.push('/home');
+              }
+        }catch(error){
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Login failed:', error.response.data);
+            } else {
+                console.error('Error logging in:', error);
+            }
+        }
         setEmail('');
         setPassword('');
     }
-    useEffect(() => {
-            console.log(userDatas);
-        }, [userDatas]);
+ 
     return (
         <div>
             <div className='p-7 h-screen flex flex-col justify-between'>

@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {  useUser } from '@/context/UserContext';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 interface NewUser {
     email: string;
-    fullname: {
-        firstname: string;
-        lastname?: string;  
-    }
+    password: string;
+    firstname: string;
+    lastname?: string;  
+
 }
 const UserSignupPage = () => {
     const [email, setEmail] = useState('');
@@ -22,23 +22,35 @@ const UserSignupPage = () => {
     const submitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
       e.preventDefault();
     const newUser: NewUser = {
-        email: email,
-        fullname: {
-            firstname: firstname,
-            lastname: lastname || undefined
-        }
+        email: email.trim(),
+        password:password.trim(),
+        firstname: firstname.trim(),
+        lastname: lastname.trim() || undefined
+
     };
     
-    try {
+   try{
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/signup`, newUser);
-        setUser(response.data);
+
+        if(response.status == 201){
+            const data = response.data;;
+            setUser(data.user);
+            localStorage.setItem('user', data.token);
+            // alert('User created successfully');
+            router.push('/home');
+        }
+        console.log(user);
         setEmail('');
         setPassword('');
         setFirstname('');
         setLastname('');
         router.push('/home'); 
-      } catch (error) {
-        console.error('Error signing up:', error);
+      }catch(error){    
+        if (axios.isAxiosError(error) && error.response) {
+            console.error('Signup failed:', error.response.data);
+        } else {
+            console.error('Error signing up:', error);
+        }
       }
     };
 

@@ -45,7 +45,9 @@ export const loginCaptain = async (req: Request, res: Response, next: NextFuncti
         }
 
         const { email, password } = validationResult.data;
-        const captain = await prisma.captain.findUnique({ where: { email } });
+        const captain = await prisma.captain.findUnique({ where: { email }
+        ,include: { vehicle: true } // Include the related vehicle data
+         });
         if (!captain) {
             return res.status(400).json({ msg: "Captain not found" });
         }
@@ -79,11 +81,14 @@ export const getCaptainProfile = async (req: AuthenticatedCaptainRequest, res: R
         return res.status(500).json({ msg: "Error fetching captain profile" });
     }
 };
-// Logout Captain
-export const logoutCaptain = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const logoutCaptain = async (req: AuthenticatedCaptainRequest, res: Response, next: NextFunction): Promise<any> => {
     try {
         res.clearCookie('token');
-        return res.status(200).json({ msg: "Logout successful" });
+        const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+        if (token) {
+            await prisma.blacklistToken.create({ data: { token } });
+        }
+        return res.status(200).json({ msg: "Logged out successfully" });
     } catch (error) {
         console.error('Error during logout:', error);
         return res.status(500).json({ msg: "Error during logout" });

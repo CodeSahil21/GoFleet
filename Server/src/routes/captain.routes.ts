@@ -10,7 +10,7 @@ captainRouter.post('/signin', loginCaptain);
 //endpoint to get captain profile
 captainRouter.get('/profile', captainMiddleware, getCaptainProfile);
 //endpoint to logout captain
-captainRouter.post('/logout', captainMiddleware, logoutCaptain);
+captainRouter.get('/logout', captainMiddleware, logoutCaptain);
 
 
 export default captainRouter;

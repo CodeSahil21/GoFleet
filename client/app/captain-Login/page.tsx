@@ -3,24 +3,39 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useCaptain } from '@/context/CaptainContext';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 const CaptainLoginPage :React.FC = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [captainDatas,setCaptainDatas] = useState<{ email: string; password: string }>({ email: '', password: '' });  
+    const {captain,setCaptain} = useCaptain();
+    const router = useRouter();
 
-
-    const submitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+    const submitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
             e.preventDefault();
-            setCaptainDatas({
-                email: email,
-                password: password
-            });
-            setEmail('');
-            setPassword('');
-        };
-        useEffect(() => {
-                console.log(captainDatas);
-            }, [captainDatas]);
+          const loginData = {
+            email:email.trim(),
+            password:password.trim()
+          }
+         try{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/captains/signin`,loginData);
+            if(response.status == 200){
+                const {token,captain} =response.data;
+                setCaptain(captain);
+                localStorage.setItem('captain', token);
+                alert('Captain logged in successfully');
+                router.push('/captain-Home');
+            }
+         }catch(e){
+                if(axios.isAxiosError(e) && e.response){
+                    console.error('Login failed:', e.response.data);
+                }else{
+                    console.error('Error logging in:', e);
+                }
+         }
+    };
+
     return (
         <div>
             <div className='py-5 px-5  h-screen flex flex-col justify-between'>

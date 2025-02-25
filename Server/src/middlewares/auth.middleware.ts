@@ -73,24 +73,7 @@ export const captainMiddleware = async (req: AuthenticatedCaptainRequest, res: R
         // Find the captain by ID
         const captain = await prisma.captain.findUnique({
             where: { id: decoded.id },
-            select: {
-                id: true,
-                firstname: true,
-                lastname: true,
-                email: true,
-                socketId: true,
-                status: true,
-                vehicleId: true,
-                vehicle: {
-                    select: {
-                        id: true,
-                        color: true,
-                        plate: true,
-                        capacity: true,
-                        vehicleType: true,
-                    }
-                }
-            },
+            include: { vehicle: true } // Include the related vehicle data
         });
 
         if (!captain) {

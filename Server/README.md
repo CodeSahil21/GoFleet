@@ -341,3 +341,157 @@ Deletes a captain by ID.
 #### Errors
 - `404 Not Found`: Captain not found.
 
+## Captain API Documentation
+
+### Captain Signup
+
+**Endpoint:** `POST /api/captains/signup`
+
+**Description:** Register a new captain with vehicle details.
+
+**Request Body:**
+```json
+{
+  "firstname": "string",
+  "lastname": "string",
+  "email": "string",
+  "password": "string",
+  "vehicle": {
+    "color": "string",
+    "plate": "string",
+    "capacity": "number",
+    "vehicleType": "CAR" | "MOTORCYCLE" | "AUTO"
+  }
+}
+```
+
+**Response:**
+- **Success (201 Created):**
+```json
+{
+  "token": "jwt_token_here",
+  "captain": {
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string"
+  }
+}
+```
+- **Error (400 Bad Request):**
+```json
+{
+  "error": {
+    "field": "error_message"
+  }
+}
+```
+- **Error (500 Internal Server Error):**
+```json
+{
+  "msg": "Error during signup"
+}
+```
+
+### Captain Signin
+
+**Endpoint:** `POST /api/captains/signin`
+
+**Description:** Authenticate a captain and receive a JWT token.
+
+**Request Body:**
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+**Response:**
+- **Success (200 OK):**
+```json
+{
+  "token": "jwt_token_here",
+  "captain": {
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string"
+  }
+}
+```
+- **Error (400 Bad Request):**
+```json
+{
+  "msg": "Captain not found"
+}
+```
+```json
+{
+  "msg": "Invalid credentials"
+}
+```
+- **Error (500 Internal Server Error):**
+```json
+{
+  "msg": "Error during login"
+}
+```
+
+### Get Captain Profile
+
+**Endpoint:** `GET /api/captains/profile`
+
+**Description:** Get the authenticated captain's profile.
+
+**Headers:**
+- `Authorization: Bearer <token>` (required)
+
+**Response:**
+- **Success (200 OK):**
+```json
+{
+  "captain": {
+    "id": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "email": "string"
+  }
+}
+```
+- **Error (401 Unauthorized):**
+```json
+{
+  "msg": "Unauthorized"
+}
+```
+- **Error (500 Internal Server Error):**
+```json
+{
+  "msg": "Error fetching captain profile"
+}
+```
+
+### Captain Logout
+
+**Endpoint:** `POST /api/captains/logout`
+
+**Description:** Logout the authenticated captain and clear their token.
+
+**Headers:**
+- `Authorization: Bearer <token>` (required)
+
+**Response:**
+- **Success (200 OK):**
+```json
+{
+  "msg": "Logout successful"
+}
+```
+- **Error (500 Internal Server Error):**
+```json
+{
+  "msg": "Error during logout"
+}
+```
+

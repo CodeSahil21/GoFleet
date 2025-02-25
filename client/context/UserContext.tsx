@@ -5,26 +5,18 @@ import React, { createContext, useState, ReactNode, useContext } from 'react';
 // Define the User interface
 export interface User {
   email: string;
-  fullname: {
-    firstname: string;
-    lastname?: string;
-  };
+  firstname: string;
+  lastname?: string;
 }
 
 // Define the UserContextType interface
 interface UserContextType {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 // Create the default user value
-const defaultUser: User = {
-  email: '',
-  fullname: {
-    firstname: '',
-    lastname: ''
-  }
-};
+const defaultUser: User | null = null;
 
 // Create the UserDataContext with default values
 export const UserDataContext = createContext<UserContextType>({
@@ -39,7 +31,7 @@ interface UserContextProviderProps {
 
 // Create the UserContext component
 const UserContext: React.FC<UserContextProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User>(defaultUser);
+  const [user, setUser] = useState<User | null>(defaultUser);
 
   return (
     <UserDataContext.Provider value={{ user, setUser }}>

@@ -41,6 +41,9 @@ export const createCaptain = async (data : CreateCaptainInput)=>{
             password: hashedPassword,
             vehicleId: vehicle.id
         },
+        include: {
+            vehicle: true, 
+          },
     });
 
     return captain;
