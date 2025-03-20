@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useCaptain } from "@/context/CaptainContext";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import CaptainProtectWrapper from "@/component/CaptainProtectWrapper";
+import CaptainProtectWrapper from "@/components/CaptainProtectWrapper";
 
 const LogoutPage = () => {
     const router = useRouter();

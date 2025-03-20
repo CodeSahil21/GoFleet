@@ -1,4 +1,4 @@
-import CaptainProtectWrapper from '@/component/CaptainProtectWrapper'
+import CaptainProtectWrapper from '@/components/CaptainProtectWrapper'
 import React from 'react'
 
 

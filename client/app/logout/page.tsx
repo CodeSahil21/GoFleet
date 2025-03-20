@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import UserProtectWrapper from "@/component/UserProtectWrapper";
+import UserProtectWrapper from "@/components/UserProtectWrapper";
 
 const LogoutPage = () => {
     const router = useRouter();
