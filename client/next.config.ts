@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
         hostname: 'www.uber-assets.com',
         pathname: '/image/upload/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        pathname: '/api/portraits/**',
+      },
     ],
   },
 };
