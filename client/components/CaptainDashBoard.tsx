@@ -49,7 +49,7 @@ const CaptainDashBoard:React.FC = () => {
              <div className="mt-8 bg-gray-600 py-6 px-7 rounded-lg flex justify-between text-center text-white ">
                <div>
                  <h4 className="text-xl">{totalHoursOnline.toFixed(2)}</h4>
-                 <p className="text-sm">HOURS ONLINE</p>
+                 <p className="text-sm">Total Hours</p>
                </div>
                <div>
                  <h4 className="text-xl">{totalDistance.toFixed(2)} KM</h4>
