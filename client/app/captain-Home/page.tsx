@@ -10,26 +10,143 @@ import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ConfirmRidePopup from '@/components/ConfirmRidePopup';
 import { useEffect } from 'react';
+import { useSocket } from '@/context/SocketContext';
+import { useCaptain } from '@/context/CaptainContext';
+import axios from 'axios';
+
+interface User {
+    id: number;
+    firstname: string;
+    lastname?: string | null;
+    email: string;
+}
+
+interface Ride {
+    id: number;
+    userId: number;
+    captainId?: number | null;
+    pickup: string;
+    destination: string;
+    fare: number;
+    status: 'PENDING' | 'ACCEPTED' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
+    duration?: number | null;
+    distance?: number | null;
+    paymentID?: string | null;
+    orderId?: string | null;
+    signature?: string | null;
+    otp: string;
+    user?: User; // Include user details as per the Prisma query
+}
+
 const CaptainHome = () => {
-    const [ridePopupPanel, setRidePopupPanel] = useState<boolean>(true); 
-    const [ConfirmedRidePopupPanel,setConfirmedRidePopupPanel] = useState<boolean>(false);
+    const [ridePopupPanel, setRidePopupPanel] = useState<boolean>(false);
+    const [ConfirmedRidePopupPanel, setConfirmedRidePopupPanel] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const confirmedRidePanelRef = useRef<HTMLDivElement>(null);
     const ridePopupPanelRef = useRef<HTMLDivElement>(null);
 
-    // GSAP Animation Logic
+    const { socket } = useSocket();
+    const { captain } = useCaptain();
+    const [ride, setRide] = useState<Ride | null>(null);
+
+    const handleError = (error: string) => {
+        // Log error silently or send to a monitoring service
+        console.debug(error);
+    };
+
+    useEffect(() => {
+        if (socket && captain) {
+            socket.emit('join', {
+                userId: captain.id,
+                userType: 'captain',
+            });
+
+            const updateLocation = () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            socket.emit('update-location-captain', {
+                                userId: captain.id,
+                                location: { ltd: latitude, lng: longitude },
+                            });
+                            setIsLoading(false);
+                        },
+                        (error) => {
+                            handleError(`Error fetching location: ${error.message}`);
+                            setIsLoading(false);
+                        }
+                    );
+                } else {
+                    handleError('Geolocation is not supported by this browser.');
+                    setIsLoading(false);
+                }
+            };
+
+            updateLocation();
+        }
+
+        if (socket) {
+            socket.on('new-ride', (data) => {
+                setRide(data);
+                setRidePopupPanel(true);
+            });
+        }
+
+        return () => {
+            if (socket) {
+                socket.off('new-ride');
+            }
+        };
+    }, [socket, captain]);
+
+    const confirmRide = async () => {
+        if (!ride || !ride.id) {
+            handleError("No ride to confirm");
+            return;
+        }
+        try {
+            const token = localStorage.getItem('captain');
+            if (!token) {
+                handleError("Captain token is missing");
+                return;
+            }
+
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/rides/confirm`,
+                { rideId: ride.id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                setRidePopupPanel(false);
+                setConfirmedRidePopupPanel(true);
+            }
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response) {
+                handleError(`Error confirming ride: ${JSON.stringify(error.response.data)}`);
+            } else {
+                handleError(`Error confirming ride: ${error}`);
+            }
+        }
+    };
+
     useGSAP(() => {
         if (ridePopupPanel) {
-            // Slide up into view
             gsap.to(ridePopupPanelRef.current, {
-                y: 0, // Move to the top of the screen
+                y: 0,
                 duration: 0.5,
                 ease: 'power2.out',
             });
         } else {
-            // Slide down out of view
             gsap.to(ridePopupPanelRef.current, {
-                y: '100vh', // Move completely off-screen
+                y: '100vh',
                 duration: 0.5,
                 ease: 'power2.in',
             });
@@ -38,16 +155,14 @@ const CaptainHome = () => {
 
     useGSAP(() => {
         if (ConfirmedRidePopupPanel) {
-            // Slide up into view
             gsap.to(confirmedRidePanelRef.current, {
-                y: 0, // Move to the top of the screen
+                y: 0,
                 duration: 0.5,
                 ease: 'power2.out',
             });
         } else {
-            // Slide down out of view
             gsap.to(confirmedRidePanelRef.current, {
-                y: '100vh', // Move completely off-screen
+                y: '100vh',
                 duration: 0.5,
                 ease: 'power2.in',
             });
@@ -86,17 +201,28 @@ const CaptainHome = () => {
                 <div className="h-2/5 w-full rounded-lg bg-white">
                     <CaptainDashBoard />
                 </div>
+                {ridePopupPanel && (
+                    <div
+                        ref={ridePopupPanelRef}
+                        className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12"
+                    >
+                        <RidePopUp
+                            ride={ride}
+                            setConfirmedRidePopupPanel={setConfirmedRidePopupPanel}
+                            setRidePopupPanel={setRidePopupPanel}
+                            confirmRide={confirmRide}
+                        />
+                    </div>
+                )}
                 <div
-                    ref={ridePopupPanelRef}
-                    className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12"
-                >
-                    <RidePopUp setConfirmedRidePopupPanel={setConfirmedRidePopupPanel} setRidePopupPanel={setRidePopupPanel}  />
-                </div>
-                <div ref={confirmedRidePanelRef}
-                    className="fixed  h-scrren w-screen  z-10 bottom-0 bg-white px-3 py-6 pt-12"
+                    ref={confirmedRidePanelRef}
+                    className="fixed h-screen w-screen z-10 bottom-0 bg-white px-3 py-6 pt-12"
                     style={{ transform: 'translateY(100vh)' }}
                 >
-                   <ConfirmRidePopup setConfirmedRidePopupPanel={setConfirmedRidePopupPanel}  />
+                    <ConfirmRidePopup
+                        ride={ride}
+                        setConfirmedRidePopupPanel={setConfirmedRidePopupPanel}
+                    />
                 </div>
             </div>
         </CaptainProtectWrapper>
@@ -104,10 +230,3 @@ const CaptainHome = () => {
 };
 
 export default CaptainHome;
-/*
-<div ref={confirmedRidePanelRef}
-                    className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12"
-                >
-                   <ConfirmRidePopup setConfirmedRidePopupPanel={setConfirmedRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
-                </div>
-*/

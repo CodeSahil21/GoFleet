@@ -32,8 +32,9 @@ const UserProtectWrapper: React.FC<UserProtectWrapperProps> = ({ children }) => 
                 });
 
                 if (response.status === 200) {
-                    const { firstname, lastname, email } = response.data.user;
-                    setUser?.({ firstname, lastname, email });
+                    const user = response.data.user;
+                    setUser?.(user); // Update user state with fetched data
+                    // setUser?.({ firstname, lastname, email });
                 }
             } catch (err) {
                 console.error('Error fetching profile:', err);

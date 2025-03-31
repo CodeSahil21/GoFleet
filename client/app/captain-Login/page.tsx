@@ -24,7 +24,6 @@ const CaptainLoginPage :React.FC = () => {
                 const {token,captain} =response.data;
                 setCaptain(captain);
                 localStorage.setItem('captain', token);
-                alert('Captain logged in successfully');
                 router.push('/captain-Home');
             }
          }catch(e){

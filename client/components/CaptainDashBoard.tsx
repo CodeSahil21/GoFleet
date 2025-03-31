@@ -1,8 +1,27 @@
-import React from 'react'
+import React ,{useContext}from 'react'
 import Image from 'next/image'
 import 'remixicon/fonts/remixicon.css';
+import { useCaptain } from '@/context/CaptainContext';
 
 const CaptainDashBoard:React.FC = () => {
+  const {captain} = useCaptain();
+    // Calculate total jobs (completed rides)
+    const totalJobs = captain?.rides.filter((ride) => ride.status === 'COMPLETED').length || 0;
+
+    // Calculate total earnings from completed rides
+  const totalEarnings = captain?.rides
+  .filter((ride) => ride.status === 'COMPLETED') // Filter completed rides
+  .reduce((sum, ride) => sum + (ride.fare || 0), 0) || 0; // Sum up the fares
+
+  // Calculate total hours online from ride durations
+  const totalHoursOnline = captain?.rides
+    .filter((ride) => ride.duration) // Filter rides with valid durations
+    .reduce((sum, ride) => sum + (ride.duration || 0), 0) / 60 || 0; // Sum durations and convert to hours
+
+    // Calculate total distance from rides
+  const totalDistance = captain?.rides
+  .filter((ride) => ride.distance) // Filter rides with valid distances
+  .reduce((sum, ride) => sum + (ride.distance || 0), 0) || 0; // Sum distances
     return (
        <div>
            <div className="py-6 px-4 rounded-lg">
@@ -17,27 +36,27 @@ const CaptainDashBoard:React.FC = () => {
                    height={64}
                  />
                  <div>
-                   <h4 className="text-xl font-semibold">Ryan Gosling</h4>
+                   <h4 className="text-xl font-semibold">{captain?.firstname} {captain?.lastname}</h4>
                    <p className="text-gray-500 text-base -mt-1">Basic level</p>
                  </div>
                </div>
                <div>
-                 <h4 className="text-xl font-bold">₹295.20</h4>
+                 <h4 className="text-xl font-bold">₹{totalEarnings.toFixed(2)}</h4>
                  <p className="text-gray-500 text-base -mt-1">Earned</p>
                </div>
              </div>
              {/* Stats Section */}
              <div className="mt-8 bg-gray-600 py-6 px-7 rounded-lg flex justify-between text-center text-white ">
                <div>
-                 <h4 className="text-xl">10.2</h4>
+                 <h4 className="text-xl">{totalHoursOnline.toFixed(2)}</h4>
                  <p className="text-sm">HOURS ONLINE</p>
                </div>
                <div>
-                 <h4 className="text-xl">30 KM</h4>
+                 <h4 className="text-xl">{totalDistance.toFixed(2)} KM</h4>
                  <p className="text-sm">TOTAL DISTANCE</p>
                </div>
                <div>
-                 <h4 className="text-xl">20</h4>
+                 <h4 className="text-xl">{totalJobs}</h4>
                  <p className="text-sm">TOTAL JOBS</p>
                </div>
              </div>

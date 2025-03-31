@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import UserContext from "@/context/UserContext";
 import CaptainContext from "@/context/CaptainContext";
-
-
+import SocketProvider from "@/context/SocketContext";
+import RideProvider from '@/context/RideContext';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,11 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <RideProvider>
+        <SocketProvider>
         <CaptainContext>
         <UserContext>
         {children}
         </UserContext>
         </CaptainContext>
+        </SocketProvider>
+        </RideProvider>
       </body>
     </html>
   );

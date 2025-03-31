@@ -36,7 +36,6 @@ const CaptainSignup: React.FC = () => {
              if(response.status == 201){
               setCaptain(response.data.captain);
               localStorage.setItem('captain', response.data.token);
-              alert("captain created successfully");
                 router.push('/captain-Home');
             }
         }catch(error){

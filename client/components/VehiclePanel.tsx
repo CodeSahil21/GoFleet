@@ -3,6 +3,12 @@ import Image from 'next/image'
 interface VehiclePanelProps {
     setVehiclePanelOpen: (value: boolean) => void
     setConfirmedRidePanel: (value: boolean) => void
+    fare: {
+        auto: number;
+        car: number;
+        motorcycle: number;
+    };
+    selectVehicle: (vehicleType: 'CAR' | 'MOTORCYCLE' | 'AUTO') => void;
 }
 
 const VehiclePanel = (props: VehiclePanelProps) => {
@@ -16,13 +22,14 @@ const VehiclePanel = (props: VehiclePanelProps) => {
                  className='p-1 text-center absolute top-0 w-[93%] '><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i> </h5>
                     <h3 className='text-2xl font-semibold mb-5'>Choose a  Vehicle</h3>
                     <div onClick={()=>{
-                        props.setConfirmedRidePanel(true);
-                        props.setVehiclePanelOpen(false)
+                        props.selectVehicle('CAR');
+                       props.setConfirmedRidePanel(true);
+                       props.setVehiclePanelOpen(false)
                     }
                 }
                     className='flex border-2 active:border-black   mb-2 rounded-xl w-full p-3 items-center  justify-between'>
                         <Image
-                             className="h-12 w-20 rounded-lg"
+                             className="h-12 w-auto rounded-lg"
                             src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1712027307/assets/42/eb85c3-e2dc-4e95-a70d-22ee4f08015f/original/Screenshot-2024-04-01-at-9.08.07p.m..png"
                             alt="Uber Car Logo"
                             width={800}
@@ -35,9 +42,10 @@ const VehiclePanel = (props: VehiclePanelProps) => {
                         <h5 className='font-medium text-xs'>2 min's away</h5>
                         <p className='font-normal text-xs text-gray-600'>Affordable,compact rides</p>
                         </div>
-                        <h2 className='text-lg font-semibold'>₹193.20</h2>
+                        <h2 className='text-lg font-semibold'>₹{props.fare.car}</h2>
                     </div>
                     <div onClick={()=>{
+                        props.selectVehicle('MOTORCYCLE');
                         props.setConfirmedRidePanel(true);
                         props.setVehiclePanelOpen(false)
                     }
@@ -57,9 +65,10 @@ const VehiclePanel = (props: VehiclePanelProps) => {
                         <h5 className='font-medium text-xs'>2 min's away</h5>
                         <p className='font-normal text-xs text-gray-600'>Affordable,motorcycle rides</p>
                         </div>
-                        <h2 className='text-lg font-semibold'>₹65.20</h2>
+                        <h2 className='text-lg font-semibold'>₹{props.fare.motorcycle}</h2>
                     </div>
                     <div onClick={()=>{
+                        props.selectVehicle('AUTO');
                         props.setConfirmedRidePanel(true);
                         props.setVehiclePanelOpen(false)
                     }
@@ -79,7 +88,7 @@ const VehiclePanel = (props: VehiclePanelProps) => {
                         <h5 className='font-medium text-xs'>2 min's away</h5>
                         <p className='font-normal text-xs text-gray-600'>Affordable,Auto rides</p>
                         </div>
-                        <h2 className='text-lg font-semibold'>₹120.33</h2>
+                        <h2 className='text-lg font-semibold'>₹{props.fare.auto}</h2>
                     </div>
         </div>
     )

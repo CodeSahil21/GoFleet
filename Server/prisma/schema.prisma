@@ -22,6 +22,7 @@ model User{
   email    String     @unique
   password  String    
   socketId  String?  @db.VarChar(255)
+  rides     Ride[]
 }
 // @db.VarChar(255) @default(""): it map String into VarChar(25) initially setting it  as default empty string
 //@id marks it as primary key of user model
@@ -43,10 +44,11 @@ model Captain {
   password  String
   socketId  String?  @db.VarChar(255)
   status    Status   @default(INACTIVE)
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id],onDelete: Cascade)
   vehicleId Int      @unique
   location  Location? @relation(fields: [locationId], references: [id])
   locationId Int?     @unique
+  rides     Ride[]
 }
 
 // Creating Vehicle model
@@ -78,4 +80,31 @@ enum VehicleType {
 enum Status {
   ACTIVE
   INACTIVE
+}
+
+
+model Ride {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  captain     Captain? @relation(fields: [captainId], references: [id])
+  captainId   Int?
+  pickup      String   @db.VarChar(255)
+  destination String   @db.VarChar(255)
+  fare        Float
+  status      RideStatus @default(PENDING)
+  duration    Int?
+  distance    Float?
+  paymentID   String?
+  orderId     String?
+  signature   String?
+  otp         String   @db.VarChar(6)
+}
+
+enum RideStatus {
+  PENDING
+  ACCEPTED
+  ONGOING
+  COMPLETED
+  CANCELLED
 }

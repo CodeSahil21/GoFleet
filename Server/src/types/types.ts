@@ -12,7 +12,6 @@ export interface AuthenticatedRequest extends Request {
     user?: AuthenticatedUser;
 }
 
-
 export interface AuthenticatedCaptain {
     id: number;
     firstname: string;
@@ -21,6 +20,13 @@ export interface AuthenticatedCaptain {
     socketId: string | null;
     status: 'ACTIVE' | 'INACTIVE';
     vehicleId: number;
+    vehicle: {
+        id: number;
+        color: string;
+        plate: string;
+        capacity: number;
+        vehicleType: 'CAR' | 'MOTORCYCLE' | 'AUTO';
+    };
 }
 
 export interface AuthenticatedCaptainRequest extends Request {

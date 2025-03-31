@@ -36,7 +36,6 @@ const UserSignupPage = () => {
             const data = response.data;;
             setUser(data.user);
             localStorage.setItem('user', data.token);
-            // alert('User created successfully');
             router.push('/home');
         }
         console.log(user);

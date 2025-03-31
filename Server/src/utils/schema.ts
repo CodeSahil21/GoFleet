@@ -35,3 +35,42 @@ export const captainSigninSchema = z.object({
     email: z.string().email('Please enter a valid email'),
     password: z.string().min(6, 'Password must be at least 6 characters long'),
 });
+
+export const getCoordinatesSchema = z.object({
+    address: z.string().min(3, { message: 'Address must be at least 3 characters long' }),
+});
+
+export const distanceTimeSchema = z.object({
+    origin: z.string().min(3),
+    destination: z.string().min(3)
+});
+
+export const autoCompleteSchema = z.object({
+    input: z.string().min(3)
+});
+
+export const createRideSchema = z.object({
+    pickup: z.string().min(3, { message: 'Invalid pickup address' }),
+    destination: z.string().min(3, { message: 'Invalid destination address' }),
+    vehicleType: z.enum(['AUTO', 'CAR', 'MOTORCYCLE'], { message: 'Invalid vehicle type' })
+  });
+
+export const getFareSchema = z.object({
+    pickup: z.string().min(3, "Invalid pickup address"),
+    destination: z.string().min(3, "Invalid destination address"),
+});
+
+export const confirmRideRequestSchema = z.object({
+rideId: z.number().int().positive("Ride ID must be a positive integer"),
+});
+
+// Define the Zod schema for validation
+export const startRideSchema = z.object({
+    rideId: z.number().int().positive('Ride ID must be a positive integer'),
+    otp: z.string().length(6, 'OTP must be exactly 6 characters'),
+});
+
+// Define the Zod schema for validation
+export const endRideSchema = z.object({
+    rideId: z.number().int().positive('Ride ID must be a positive integer'),
+});

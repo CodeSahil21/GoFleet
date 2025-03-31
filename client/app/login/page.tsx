@@ -29,7 +29,6 @@ const UserLoginPage:React.FC = () => {
                 const data = response.data;
                 setUser(data.user);
                 localStorage.setItem('user', data.token);
-                alert('User logged in successfully');
                 router.push('/home');
               }
         }catch(error){

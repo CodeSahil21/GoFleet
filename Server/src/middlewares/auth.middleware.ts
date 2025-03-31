@@ -28,13 +28,9 @@ export const userMiddleware = async (req: AuthenticatedUserRequest, res: Respons
         // Find the user by ID
         const user = await prisma.user.findUnique({
             where: { id: decoded.id },
-            select: {
-                id: true,
-                firstname: true,
-                lastname: true,
-                email: true,
-                socketId: true,
-            },
+            include: { 
+                rides:true
+             },
         });
 
         if (!user) {
@@ -73,9 +69,11 @@ export const captainMiddleware = async (req: AuthenticatedCaptainRequest, res: R
         // Find the captain by ID
         const captain = await prisma.captain.findUnique({
             where: { id: decoded.id },
-            include: { vehicle: true } // Include the related vehicle data
-        });
-
+            include: { 
+                vehicle: true,
+                rides:true
+             },// Include the related vehicle and ride data
+            })
         if (!captain) {
             return res.status(401).json({ msg: "Unauthorized2" });
         }

@@ -31,8 +31,8 @@ const CaptainProtectWrapper: React.FC<CaptainProtectWrapperProps> = ({ children 
                 });
 
                 if (response.status === 200) {
-                    const { id, firstname, lastname, email, vehicle } = response.data.captain;
-                    setCaptain?.({ id, firstname, lastname, email, vehicle });
+                    const captain = response.data.captain;
+                    setCaptain?.(captain); // Update captain state with fetched data
                 }
             } catch (err) {
                 console.error("Error fetching profile:", err);
