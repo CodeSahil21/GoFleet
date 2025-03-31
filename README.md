@@ -98,7 +98,7 @@ Ensure you have the following installed:
 Clone the repository:
 
 ```bash
- git clone https://github.com/CodeSahil21/UberClone.git
+ git clone https://github.com/CodeSahil21/GoFleet.git
  cd uber-clone
 ```
 
@@ -162,7 +162,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 Create a `.env` file in the `server` folder with the following variables:
 
 ```env
-DATABASE_URL=postgresql://username:password@localhost:5432/uber_clone
+DATABASE_URL=postgresql://username:password@localhost:5432/GoFleet
 JWT_SECRET=your_jwt_secret
 ```
 
