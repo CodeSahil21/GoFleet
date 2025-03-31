@@ -84,6 +84,9 @@ const LiveTracking: React.FC = () => {
                 mapContainerStyle={containerStyle}
                 center={currentPosition}
                 zoom={15}
+                options={{
+                    gestureHandling: 'greedy', // Allows zooming and panning with gestures
+                }}
             >
                 <Marker position={currentPosition} />
             </GoogleMap>

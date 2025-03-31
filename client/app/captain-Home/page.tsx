@@ -83,8 +83,8 @@ const CaptainHome = () => {
                     setIsLoading(false);
                 }
             };
-
-            updateLocation();
+                  const handlLocation = setInterval(updateLocation,10000)
+                  updateLocation();
         }
 
         if (socket) {
