@@ -57,7 +57,7 @@ const RidingPage = () => {
                     <div className='text-right'>
                         <h2 className='text-lg font-medium'>{rideData.captain?.firstname} {rideData.captain?.lastname}</h2>
                         <h4 className='text-xl font-semibold -mt-1 -mb-1'>({rideData.captain?.vehicle?.plate})</h4>
-                        <p className='text-sm text-gray-600'>Uber: {rideData.captain?.vehicle?.vehicleType}</p>
+                        <p className='text-sm text-gray-600'>GoFleet: {rideData.captain?.vehicle?.vehicleType}</p>
                     </div>
                 </div>
                 <div className='flex gap-2 justify-between flex-col items-center'>

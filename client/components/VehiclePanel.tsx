@@ -37,7 +37,7 @@ const VehiclePanel = (props: VehiclePanelProps) => {
                         />
                         <div className='ml-2 w-1/2'>
                         <h4 className='font-medium text-lg'>
-                         UberGo <span><i className="ri-user-3-fill">4</i></span>   
+                         GoFleetGo <span><i className="ri-user-3-fill">4</i></span>   
                         </h4>
                         <h5 className='font-medium text-xs'>2 min's away</h5>
                         <p className='font-normal text-xs text-gray-600'>Affordable,compact rides</p>

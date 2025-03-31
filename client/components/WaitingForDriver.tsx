@@ -103,7 +103,7 @@ const WaitingForDriver: React.FC<WaitingForDriverProps> = (props: any) => {
                     {props.ride?.captain?.vehicle?.plate || 'N/A'}
                 </h4>
                 <p className="text-sm text-gray-500">
-                    Uber {props.ride?.captain?.vehicle?.vehicleType || 'N/A'}
+                GoFleet {props.ride?.captain?.vehicle?.vehicleType || 'N/A'}
                 </p>
                 <p className="text-sm text-gray-500 font-medium">
                     OTP: <span className="text-gray-900 font-semibold">{props.ride?.otp || 'N/A'}</span>
