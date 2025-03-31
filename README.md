@@ -1,8 +1,8 @@
-# 🚖 Uber Clone Project
+# 🚖 GoFleet  Project
 
 
 
-This is a full-stack Uber Clone application built using **Next.js** for the client-side and **Node.js** with **Express** for the server-side. The project implements real-time ride tracking, user and captain authentication, ride creation, and more.
+This is a full-stack Uber alike application built using **Next.js** for the client-side and **Node.js** with **Express** for the server-side. The project implements real-time ride tracking, user and captain authentication, ride creation, and more.
 
 ## 📌 Table of Contents
 
@@ -98,7 +98,7 @@ Ensure you have the following installed:
 Clone the repository:
 
 ```bash
- git clone https://github.com/CodeSahil21/UberClone.git
+ git clone https://github.com/CodeSahil21/GoFleet.git
  cd uber-clone
 ```
 
@@ -162,7 +162,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 Create a `.env` file in the `server` folder with the following variables:
 
 ```env
-DATABASE_URL=postgresql://username:password@localhost:5432/uber_clone
+DATABASE_URL=postgresql://username:password@localhost:5432/GoFleet
 JWT_SECRET=your_jwt_secret
 ```
 
