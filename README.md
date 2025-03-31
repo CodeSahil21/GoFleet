@@ -98,7 +98,7 @@ Ensure you have the following installed:
 Clone the repository:
 
 ```bash
- git clone https://github.com/CodeSahil21/uber-clone.git
+ git clone https://github.com/CodeSahil21/UberClone.git
  cd uber-clone
 ```
 
