@@ -1,8 +1,8 @@
-# 🚖 Uber Clone Project
+# 🚖 GoFleet Clone Project
 
 
 
-This is a full-stack Uber Clone application built using **Next.js** for the client-side and **Node.js** with **Express** for the server-side. The project implements real-time ride tracking, user and captain authentication, ride creation, and more.
+This is a full-stack Uber alike application built using **Next.js** for the client-side and **Node.js** with **Express** for the server-side. The project implements real-time ride tracking, user and captain authentication, ride creation, and more.
 
 ## 📌 Table of Contents
 
