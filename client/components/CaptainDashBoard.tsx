@@ -41,18 +41,18 @@ const CaptainDashBoard:React.FC = () => {
                  </div>
                </div>
                <div>
-                 <h4 className="text-xl font-bold">₹{totalEarnings.toFixed(2)}</h4>
+                 <h4 className="text-xl font-bold">₹{totalEarnings.toFixed(0)}</h4>
                  <p className="text-gray-500 text-base -mt-1">Earned</p>
                </div>
              </div>
              {/* Stats Section */}
              <div className="mt-8 bg-gray-600 py-6 px-7 rounded-lg flex justify-between text-center text-white ">
                <div>
-                 <h4 className="text-xl">{totalHoursOnline.toFixed(2)}</h4>
-                 <p className="text-sm">Total Hours</p>
+                 <h4 className="text-xl">{totalHoursOnline.toFixed(0)}</h4>
+                 <p className="text-sm">Total Hours Drived</p>
                </div>
                <div>
-                 <h4 className="text-xl">{totalDistance.toFixed(2)} KM</h4>
+                 <h4 className="text-xl">{totalDistance.toFixed(0)} KM</h4>
                  <p className="text-sm">TOTAL DISTANCE</p>
                </div>
                <div>

@@ -43,6 +43,11 @@ const nextConfig: NextConfig = {
         hostname: 'randomuser.me',
         pathname: '/api/portraits/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.shutterstock.com',
+        pathname: '/image-vector/**',
+      },
     ],
   },
 };
